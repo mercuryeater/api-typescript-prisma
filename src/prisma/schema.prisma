@@ -11,12 +11,14 @@ datasource db {
 }
 
 model users {
-  id      String    @id @default(cuid())
-  name    String
-  email   String    @unique
-  avatar  String
-  posts   posts[]
-  reviews reviews[]
+  id       String    @id @default(cuid())
+  name     String
+  email    String    @unique
+  avatar   String
+  password String?
+  isActive Boolean   @default(false)
+  posts    posts[]
+  reviews  reviews[]
 }
 
 model posts {
