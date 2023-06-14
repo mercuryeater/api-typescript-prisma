@@ -1,4 +1,6 @@
 import { Prisma,  PrismaClient } from "@prisma/client";
+import { usersCreateData } from './user.type';
+import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
@@ -16,14 +18,25 @@ export async function getUserById(id: string) {
     return user;
 }
 
-export async function postUser(data: Prisma.usersCreateInput ) {
+export async function postUser(input: usersCreateData) {
+
+    if (!input.password) {
+        throw new Error("Please enter password");
+    }
+
+    //Hash password
+    //1. salt, tiene un costo, el standard es 12
+    const saltRounds = 10;
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hash = await bcrypt.hash(input.password, salt)
+
     const newUser = await prisma.users.create({
-        data
+        data: input,
     })
     return newUser;
 }
 
-export async function updateById(id: string , data: Prisma.usersCreateInput){
+export async function updateById(id: string , data:  usersCreateData){
     const updateUser = await prisma.users.update({
         where: {
             id: id,

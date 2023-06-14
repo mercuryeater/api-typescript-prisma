@@ -1,4 +1,5 @@
 import { Prisma, PrismaClient } from "@prisma/client";
+import { reviewsCreateData } from './review.type';
 
 const prisma = new PrismaClient();
 
@@ -17,14 +18,14 @@ export async function getReviewById(id: string) {
     return review;
 }
 
-export async function createReview(data: Prisma.reviewsCreateInput) {
+export async function createReview(data: reviewsCreateData) {
     const newReview = await prisma.reviews.create({
         data
     })
     return newReview;
 }
 
-export async function updateReview(data: Prisma.reviewsCreateInput) {
+export async function updateReview(data: reviewsCreateData) {
     const editedReview = await prisma.reviews.update({
         where:{
             id: data.id,

@@ -1,4 +1,5 @@
 import { PrismaClient , Prisma } from "@prisma/client";
+import { postsCreateData } from "./posts.type";
 
 const prisma = new PrismaClient();
 
@@ -16,7 +17,7 @@ export async function getPostById(id: string) {
     return post;
 }
 
-export async function createPost(data: Prisma.postsCreateInput ) {
+export async function createPost(data:  postsCreateData ) {
     const post = await prisma.posts.create({
         data
     })
@@ -25,7 +26,7 @@ export async function createPost(data: Prisma.postsCreateInput ) {
 
 
 //Por que funciona postsCreateInput pero no postsUpdateInput??
-export async function updatePost(data: Prisma.postsCreateInput) {
+export async function updatePost(data:  postsCreateData) {
     const updatedPost = await prisma.posts.update({
         where: {
             id: data.id
